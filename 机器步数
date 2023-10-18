@@ -1,0 +1,47 @@
+#include<stdio.h>
+#include<stdlib.h>
+ 
+int uniquePaths(int m, int n);
+ 
+void main()
+{
+	int result=0;
+	result=uniquePaths(3,7);
+ 
+	printf("共有%d种路径\n",result);
+ 
+	system("pause");
+}
+ 
+int uniquePaths(int m, int n) 
+{
+	int NumOfPath[100][100]; //定义数组时数组大小必须是整型常量，所以不能NumOfPath[m][n]这                 样定义，但所需的数组大小与m和n有关，提示m和n不超过100，所以先定义了100*100的二                 维数组，后面再利用m*n对数组进行赋值。
+ 
+	for(int i=0;i<n;i++)  //首行、首列都是1
+		NumOfPath[0][i]=1;  //这里注意：数组下标是从0开始，所以后面的return是m-1和n-1！
+	for(int j=0;j<m;j++)
+		NumOfPath[j][0]=1;
+ 
+	for(int i=1;i<m;i++)  //后面的每个元素=左边+上面
+		for(int j=1;j<n;j++)
+			NumOfPath[i][j]=NumOfPath[i-1][j]+NumOfPath[i][j-1];
+ 
+	return NumOfPath[m-1][n-1];
+ 
+ 
+	/*推出递推公式*/   //推出了递推公式（过程在下面图片里）（按行递推相加），方法不常规！！！
+	/*int NumOfPath=0,tmp=0;
+    if(m==1||n==1)
+		return 1;
+	if(n==2)
+		return m;
+	for(int i=m;i>0;i--)
+	{
+		for(;m>0;m--)
+		{
+			tmp+=m-1;
+		}
+		NumOfPath=NumOfPath+(i+tmp*(n-3));
+	}
+	return NumOfPath;*/
+}
